@@ -5,8 +5,8 @@
 
 int main(){
     /* ... */
-FILE *ifp = fopen("test.txt", "rb"); 
-FILE *ofp = fopen("encrypted", "wb");
+FILE *ifp = fopen("encrypted", "rb"); 
+FILE *ofp = fopen("decrypted.txt", "wb");
 
   int bytes_read, bytes_written;
   unsigned char indata[AES_BLOCK_SIZE];
@@ -26,16 +26,20 @@ FILE *ofp = fopen("encrypted", "wb");
 
   /* set where on the 128 bit encrypted block to begin encryption*/
   int num = 0;
+//fread(ivec, 1, AES_BLOCK_SIZE, ifp);
+printf("%s", ivec);
 
   while (1) {
-    //fwrite(ivec, 1, AES_BLOCK_SIZE, ofp);
     bytes_read = fread(indata, 1, AES_BLOCK_SIZE, ifp);
 
     AES_cfb128_encrypt(indata, outdata, bytes_read, &key, ivec, &num,
-           AES_ENCRYPT);
+           AES_DECRYPT);
+
     bytes_written = fwrite(outdata, 1, bytes_read, ofp);
+      printf("%d, %d\n", bytes_read, bytes_written);
+
     if (bytes_read < AES_BLOCK_SIZE)
   break;
   }
-  printf("%d", num);
-  }
+  printf("%d, %d", bytes_read, bytes_written);
+}
