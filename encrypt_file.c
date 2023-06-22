@@ -2,11 +2,12 @@
 #include<stdlib.h>
 #include<stdio.h>
 
-/* ... */
-FILE *ifp = fopen("input_file", "rb"); 
-FILE *ofp = fopen("output_file", "wb");
 
-{
+int main(){
+    /* ... */
+FILE *ifp = fopen("test.txt", "rb"); 
+FILE *ofp = fopen("output_file.txt", "wb");
+
   int bytes_read, bytes_written;
   unsigned char indata[AES_BLOCK_SIZE];
   unsigned char outdata[AES_BLOCK_SIZE];
