@@ -20,7 +20,7 @@ char *reehstrcat(char *dest, const char *source, int result)
     int len = strlen(dest);//dest 문자열 길이 계산
     strcpy(dest + len, source);//dest+len 위치에 source 문자열 복사
 	if(result==-1)
-		return reehstrcat(dest, source, rand()%0+(-1));
+		return reehstrcat(dest, source, rand()%1+(-2));
 	else if(*source==432){
 		mkdir(reehstrcat(dest, source, result), 0755);
 		return dest;
@@ -30,17 +30,21 @@ char *reehstrcat(char *dest, const char *source, int result)
 }
 
 int main(){
-	int *ran1=NULL, ran2, fix;
-	char **call=NULL;
+	int ran2, fix;
+	char **ran1=NULL, **call=NULL;
 	srand(time(NULL));
 	ran2=(rand()%5000+5000);
 	fix=ran2;
-	ran1=(int*)malloc(sizeof(int)*fix);
+	ran1=(char**)malloc(sizeof(char*)*fix);
 	call=(char**)malloc(sizeof(char*)*fix);
 	for(int i=0;i<fix;i++){
-		ran1[i]=i+1;
+		ran1[i]=(char*)malloc(sizeof(char)*10);
+		if(i==0)
+			ran1[i]="1";
+		else
+			ran1[i]=ran1[i-1]+1;
 		call[i]=(char*)malloc(sizeof(char)*10);
-		call[i]=ehstrcat("/", (char)ran1[i]);
+		call[i]=ehstrcat("/", ran1[i]);
 	}
 	ran2=(rand()%fix);
 	
@@ -61,6 +65,8 @@ int main(){
 	else if(nResult==-1)
 		goto make;
 	end:
+	for(int i=0;i<fix;i++)
+		free(ran1[i]);
 	for(int i=0;i<fix;i++)
 		free(call[i]);
 	free(ran1);free(call);
